@@ -1,25 +1,5 @@
 <!-- src/components/About.vue -->
 <script setup>
-import { Compass, PenTool, Sparkles, Feather, Layers, BookOpen } from 'lucide-vue-next'
-
-const principles = [
-  {
-    num: '01',
-    title: 'Strategy before decoration',
-    description: 'Every typographic choice, color pairing, and layout grid is anchored in narrative purpose. Beauty without strategic foundation is fleeting; intentional design commands attention.'
-  },
-  {
-    num: '02',
-    title: 'Personality in every detail',
-    description: 'Memorable identities refuse to disappear into corporate neutrality. I infuse every identity with deliberate human idiosyncrasies, custom ligatures, and tactile finishes that invite touch.'
-  },
-  {
-    num: '03',
-    title: 'Beautiful design with a purpose',
-    description: 'Merging the discipline of Swiss modernism with expressive warmth. The goal is never novelty for its own sake, but creating timeless artifacts that resonate across print and digital screens.'
-  }
-]
-
 const disciplines = [
   'Brand Identity Systems',
   'Screenprint & Poster Design',
@@ -87,25 +67,6 @@ const disciplines = [
               <span>
                 Based in my private creative studio, collaborating with brands and cultural institutions worldwide. Open for select 2026 commissions.
               </span>
-            </div>
-          </div>
-
-          <!-- Creative Principles: Editorial Layout -->
-          <div class="principles-block">
-            <h3 class="principles-heading">Core Creative Principles</h3>
-
-            <div class="principles-list">
-              <div
-                v-for="item in principles"
-                :key="item.num"
-                class="principle-item"
-              >
-                <div class="principle-num">{{ item.num }}</div>
-                <div class="principle-content">
-                  <h4 class="principle-title">{{ item.title }}</h4>
-                  <p class="principle-desc">{{ item.description }}</p>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -315,69 +276,10 @@ const disciplines = [
   white-space: nowrap;
 }
 
-/* Principles Block */
-.principles-block {
-  margin-bottom: 2.75rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--color-border-subtle);
-}
-
-.principles-heading {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-deep-espresso);
-  margin-bottom: 1.5rem;
-}
-
-.principles-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.principle-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
-}
-
-.principle-num {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--color-signature);
-  background-color: rgba(212, 163, 115, 0.12);
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.principle-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.principle-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--color-deep-espresso);
-}
-
-.principle-desc {
-  font-size: 0.9rem;
-  color: var(--color-soft-charcoal);
-  line-height: 1.6;
-}
-
 /* Disciplines Block */
 .disciplines-block {
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--color-border-subtle);
+  padding-top: 0;
+  border-top: none;
 }
 
 .disciplines-label {
@@ -410,5 +312,19 @@ const disciplines = [
   border-color: var(--color-signature);
   background-color: rgba(212, 163, 115, 0.1);
   transform: translateY(-1px);
+}
+
+/* ---------- Responsive: comfortable stacking on phones ---------- */
+@media (max-width: 640px) {
+  .about-editorial-grid {
+    gap: 2.5rem;
+  }
+  .portrait-frame {
+    max-width: 100%;
+  }
+  .portrait-offset-accent {
+    left: -8px;
+    top: 14px;
+  }
 }
 </style>

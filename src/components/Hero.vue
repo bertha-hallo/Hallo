@@ -82,7 +82,7 @@ onUnmounted(() => {
         <div class="hero-content">
           <!-- Prominent Signature Wordmark -->
           <div class="hero-brand-signature">
-            <BerthaWordmark size="hero" :interactive="true" />
+            <BerthaWordmark size="hero" :interactive="true" :typing="true" />
             <div class="brand-sub-badge">Graphic Design Studio</div>
           </div>
 
@@ -606,5 +606,78 @@ onUnmounted(() => {
 
 .seal-sparkle {
   color: var(--color-signature);
+}
+
+/* ---------- Responsive: tablet & mobile ---------- */
+@media (max-width: 991px) {
+  .hero-section {
+    min-height: auto;
+    padding-top: calc(var(--nav-height) + 1.5rem);
+    padding-bottom: 3.5rem;
+  }
+  .hero-grid {
+    gap: 2.75rem;
+  }
+  .hero-visual-composition {
+    min-height: 0;
+    width: 100%;
+  }
+  .poster-card-primary {
+    max-width: min(380px, 100%);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-top-bar {
+    margin-bottom: 1.5rem;
+  }
+  .studio-discipline-tags {
+    flex-wrap: wrap;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+  .hero-brand-signature {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .hero-headline {
+    font-size: clamp(2.1rem, 10vw, 2.75rem);
+    margin-bottom: 1.25rem;
+    overflow-wrap: break-word;
+  }
+  .hero-description {
+    margin-bottom: 1.75rem;
+  }
+  .hero-actions {
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .hero-actions .btn-primary-editorial,
+  .hero-actions .btn-secondary-editorial {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  .hero-metrics-strip {
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+  }
+  .metric-divider {
+    display: none;
+  }
+  .hero-visual-composition {
+    margin-top: 0.5rem;
+  }
+  .floating-seal-badge {
+    top: 8px;
+    left: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-actions .btn-primary-editorial,
+  .hero-actions .btn-secondary-editorial {
+    padding: 0.9rem 1.25rem;
+    font-size: 0.875rem;
+  }
 }
 </style>

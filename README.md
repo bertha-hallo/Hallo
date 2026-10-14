@@ -54,7 +54,7 @@ Designed with contemporary Swiss-inspired typography, warm earth tones, tactile 
   - 4-step methodology: *Discover, Explore, Design, Deliver*.
   - Connected horizontal timeline on desktop, vertical stack on mobile.
 - **Contact & Inquiry Section (`Contact.vue`):**
-  - Client-side validation, accessible form inputs, project discipline & budget selectors.
+  - Client-side validation, accessible form inputs, project discipline selector and project-brief inquiry.
   - Generates pre-filled `mailto:` client action and triggers celebratory mascot feedback.
   - Direct studio email: `hello@berthadesign.studio`.
   - Social profiles: Instagram, Behance, Pinterest, LinkedIn.
