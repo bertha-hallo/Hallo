@@ -1,0 +1,9 @@
+[2m9:49:04 AM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Failed to resolve import "xyz" from "src/component/MyPort.vue". Does the file exist?
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Administrator/Desktop/draft/2026/Brand1/MyWeb/src/component/MyPort.vue[39m:5:8
+[33m  15 |  import { ref, onMounted, watch, nextTick, computed } from 'vue'
+  16 |  
+  17 |  import 'xyz';
+     |            ^
+  18 |  
+  19 |  const _sfc_main = {[39m

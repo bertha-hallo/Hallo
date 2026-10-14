@@ -1,0 +1,458 @@
+<!-- src/component/MyPort.vue -->
+<script setup>
+import { ref, onMounted, watch, nextTick, computed } from 'vue'
+
+// Loader
+const isLoading = ref(true)
+const loaderStage = ref(0)
+const loaderDone = ref(false)
+let loaderTimers = []
+const skipLoader = () => {
+  loaderTimers.forEach(clearTimeout)
+  loaderTimers = []
+  isLoading.value = false
+  loaderDone.value = true
+}
+
+// Cursor + progress
+const cursorX = ref(-100)
+const cursorY = ref(-100)
+const cursorHot = ref(false)
+const scrollProgress = ref(0)
+const reducedMotion = ref(false)
+
+// Hero parallax
+const stageRef = ref(null)
+const tiltX = ref(0)
+const tiltY = ref(0)
+let rafId = 0
+const onHeroMove = (e) => {
+  if (reducedMotion.value) return
+  const el = stageRef.value
+  if (!el) return
+  const r = el.getBoundingClientRect()
+  const px = (e.clientX - r.left) / r.width - 0.5
+  const py = (e.clientY - r.top) / r.height - 0.5
+  cancelAnimationFrame(rafId)
+  rafId = requestAnimationFrame(() => {
+    tiltX.value = px * 14
+    tiltY.value = py * 10
+  })
+}
+const resetTilt = () => {
+  tiltX.value = 0
+  tiltY.value = 0
+}
+
+const filteredCases = computed(() => {
+  if (activeFilter.value === 'All') return cases.value
+  return cases.value.filter((c) => c.discipline === activeFilter.value)
+})
+
+const selectedCase = ref(null)
+
+onMounted(() => {
+  setTimeout(() => {
+    isBlurring.value = true
+  }, 1200)
+
+  setTimeout(() => {
+    loaderText.value = 'Welcome'
+    isBlurring.value = false
+  }, 1800)
+
+  setTimeout(() => {
+    isLoading.value = false
+  }, 3200)
+})
+
+// Hero photos (image first, labels on hover)
+const heroTiles = ref([
+  {
+    pos: 'pos-1 t1',
+    r: '-8deg',
+    kicker: 'Fresh roast',
+    img: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=500&q=80',
+    alt: 'Coffee beans and roastery craft',
+    foot: 'Echo Coffee',
+  },
+  {
+    pos: 'pos-2 t2',
+    r: '10deg',
+    kicker: 'Gallery print',
+    img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&q=80',
+    alt: 'Abstract mineral art print',
+    foot: 'Geode Studio',
+  },
+  {
+    pos: 'pos-3 t3',
+    r: '6deg',
+    kicker: 'Cover story',
+    img: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=500&q=80',
+    alt: 'Fashion editorial spread',
+    foot: 'Terra Issue',
+  },
+  {
+    pos: 'pos-4 t4',
+    r: '-12deg',
+    kicker: 'Cart + fire',
+    img: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=500&q=80',
+    alt: 'Handmade ceramics in studio',
+    foot: 'Kiln and Co',
+  },
+])
+
+// Page 2 Portfolio Data
+const cases = ref([
+  {
+    id: 1,
+    slug: 'echo-coffee',
+    client: 'Echo Coffee Roasters',
+    title: 'Echo Coffee — a roastery with a heartbeat',
+    discipline: 'Logo & Identity',
+    year: '2025',
+    deliverables: ['Logo suite', 'Wordmark', 'Menu system', 'Guidelines'],
+    palette: ['#8c5b2d', '#d4a373', '#faedcd', '#2b2d42'],
+    typePair: 'Playfair Display / Inter',
+    overview: 'Ama runs a tiny roastery and told me she wanted Saturday morning. So we did — warm browns, a cream wordmark that pops on the shelf, and a stamp she presses herself.',
+    outcomes: ['3 roast tiers color-coded', 'Stamp-ready 1-color mark', 'Menu + signage system'],
+    logoType: 'circle',
+    logoBg: '#8c5b2d',
+    logoFg: '#fefae0',
+    quote: '"People recognize the mark before they read the name." — Ama',
+    image: null,
+  },
+  {
+    id: 2,
+    slug: 'geode-studio',
+    client: 'Geode Studio',
+    title: 'Geode — rocks that belong in galleries',
+    discipline: 'Editorial',
+    year: '2025',
+    deliverables: ['Monogram', 'Print series', 'Poster set', 'Type pairing'],
+    palette: ['#ccd5ae', '#e9edc9', '#d4a373', '#2b2d42'],
+    typePair: 'Playfair / Inter Tight',
+    overview: 'Geode makes mineral prints for people who geek out over stone the way I geek out over kerning. Faceted shapes, generous margins, and a print series that hangs like a small exhibition.',
+    outcomes: ['6-print launch series', 'Poster + print set', 'Gallery-ready specs'],
+    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
+    quote: 'Our opening night sold out the wall.' - Geode team',
+  },
+  {
+    id: 3,
+    slug: 'localnoms',
+    client: 'localNoms',
+    title: 'localNoms — street food, but make it legible',
+    discipline: 'Logo & Identity',
+    year: '2024',
+    deliverables: ['Wordmark', 'App icon', 'Tokens', 'Social kit'],
+    palette: ['#d4a373', '#fefae0', '#8c5b2d', '#2b2d42'],
+    typePair: 'Playfair / Inter',
+    overview: 'Kwame needed vendors with phone cameras and bright sun to still read the menu. We made a chunky friendly wordmark, tokens that pass contrast even in daylight, and banners a stall owner can update in minutes.',
+    outcomes: ['AA contrast tokens', 'Icon + avatar set', 'Vendor banner templates'],
+    logoType: 'pill',
+    logoBg: '#fefae0',
+    logoFg: '#8c5b2d',
+    quote: 'My auntie can finally read my menu from across the market.' - Kwame',
+  },
+])
+
+// Modal & Selection State for Clickable Project Display
+const selectedProject = ref(null)
+
+const openProjectDetails = (project) => {
+  selectedProject.value = project
+}
+
+const closeProjectDetails = () => {
+  selectedProject.value = null
+}
+</script>
+
+<template>
+  <div>
+    <!-- Loader Overlay -->
+    <Transition name="fade">
+      <div v-if="isLoading" class="loader-overlay">
+        <h1 class="loader-text" :class="{ 'blur-out': isBlurring }">
+          {{ loaderText }}
+        </h1>
+      </div>
+    </Transition>
+
+    <div class="portfolio-wrapper">
+      <!-- ================= PAGE 1 ================= -->
+      <section class="page-container page-1-hero">
+        <div class="converging-stage">
+          <div
+            v-for="(img, idx) in heroGallery"
+            :key="img.id"
+            class="converge-card"
+            :class="`pos-${idx + 1}`"
+          >
+            <img :src="img.src" :alt="img.alt" />
+          </div>
+
+          <div class="center-brand-name">
+            <h1 class="bertha-typography">
+              <span class="font-matura-unbold">B</span
+              ><span class="font-mistral-unbold">ertha</span>
+            </h1>
+            <p class="subtitle-graphic-designer">Graphic designer</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PAGE 2 ================= -->
+      <section id="portfolio-section" class="page-container page-2-portfolio">
+        <!-- Background SVG Art -->
+        <svg
+          class="mineral-art mineral-1"
+          viewBox="0 0 200 200"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon points="100,10 160,50 140,130 60,150 20,80" fill="#D4A373" opacity="0.35" />
+          <polygon points="100,10 160,50 110,85 60,40" fill="#CCD5AE" opacity="0.45" />
+          <polygon points="160,50 140,130 110,85" fill="#E9EDC9" opacity="0.6" />
+          <polygon points="140,130 60,150 110,85" fill="#B07D4F" opacity="0.4" />
+          <polygon points="60,150 20,80 110,85" fill="#FAEDCD" opacity="0.5" />
+          <polygon points="20,80 100,10 60,40 110,85" fill="#FEFAE0" opacity="0.5" />
+        </svg>
+
+        <!-- Frameless Flexbox Gallery Projects Section -->
+        <main id="projects" class="projects-gallery-section">
+          <div class="projects-flex-container">
+            <div
+              v-for="project in projects"
+              :key="project.id"
+              class="project-frame-card"
+              @click="openProjectDetails(project)"
+            >
+              <div class="project-frame-inner">
+                <img :src="project.image" :alt="project.title" loading="lazy" />
+                <div class="project-overlay">
+                  <span class="overlay-category">{{ project.category }}</span>
+                  <h3 class="overlay-title">{{ project.title }}</h3>
+                  <span class="click-hint">Click for details →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <!-- Interactive Project Details Modal -->
+        <Transition name="fade">
+          <div
+            v-if="selectedProject"
+            class="project-modal-backdrop"
+            @click.self="closeProjectDetails"
+          >
+            <div class="project-modal-card">
+              <button class="close-modal-btn" @click="closeProjectDetails">&times;</button>
+              <div class="modal-image-wrapper">
+                <img :src="selectedProject.image" :alt="selectedProject.title" />
+              </div>
+              <div class="modal-content">
+                <span class="modal-category">{{ selectedProject.category }}</span>
+                <h2 class="modal-title">{{ selectedProject.title }}</h2>
+                <p class="modal-description">{{ selectedProject.description }}</p>
+                <div class="modal-tags">
+                  <span v-for="tag in selectedProject.tags" :key="tag" class="tag">{{ tag }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Transition>
+
+        <!-- Interactive Marquee Section -->
+        <section
+          class="marquee-wrapper-section"
+          @mouseenter="handleMouseEnter"
+          @mouseleave="handleMouseLeave"
+        >
+          <div v-if="!isMerged" class="multi-column-marquee">
+            <!-- Column 1 -->
+            <div class="marquee-vertical-box">
+              <div class="marquee-track-down" :class="{ 'is-running': isHovered }">
+                <div class="marquee-content-vertical">
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                </div>
+                <div class="marquee-content-vertical" aria-hidden="true">
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="marquee-vertical-box">
+              <div class="marquee-track-up" :class="{ 'is-running': isHovered }">
+                <div class="marquee-content-vertical">
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                </div>
+                <div class="marquee-content-vertical" aria-hidden="true">
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 3 -->
+            <div class="marquee-vertical-box">
+              <div class="marquee-track-down" :class="{ 'is-running': isHovered }">
+                <div class="marquee-content-vertical">
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                </div>
+                <div class="marquee-content-vertical" aria-hidden="true">
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 4 -->
+            <div class="marquee-vertical-box">
+              <div class="marquee-track-up" :class="{ 'is-running': isHovered }">
+                <div class="marquee-content-vertical">
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                </div>
+                <div class="marquee-content-vertical" aria-hidden="true">
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 5 -->
+            <div class="marquee-vertical-box">
+              <div class="marquee-track-down" :class="{ 'is-running': isHovered }">
+                <div class="marquee-content-vertical">
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                </div>
+                <div class="marquee-content-vertical" aria-hidden="true">
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                  <span class="marquee-item"
+                    ><span class="font-matura">B</span><span class="font-mistral">ertha</span></span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div v-else class="merged-text-container">
+            <h1 class="big-merged-text">
+              <span class="font-matura-large">B</span><span class="font-mistral-large">ertha</span>
+            </h1>
+          </div>
+        </section>
+      </section>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+@import './portfolio.css';
+</style>

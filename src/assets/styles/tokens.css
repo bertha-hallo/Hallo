@@ -1,0 +1,69 @@
+/* src/assets/styles/tokens.css */
+
+/* Custom Font Definitions */
+@font-face {
+  font-family: 'Matura MT Script Capitals';
+  src: local('Matura MT Script Capitals'),
+       local('Matura MT Script'),
+       local('MATURASC'),
+       url('/fonts/MATURASC.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mistral';
+  src: local('Mistral'),
+       local('MISTRAL'),
+       url('/fonts/MISTRAL.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Brand Color Palette */
+  --color-signature: #D4A373;         /* Bertha signature tan */
+  --color-signature-dark: #B58455;    /* Hover and deep tan */
+  --color-signature-light: #E8C8A8;   /* Soft tan tint */
+  --color-warm-ivory: #F7F2EA;        /* Primary light canvas background */
+  --color-deep-espresso: #2B211D;     /* Strong text and dark sections */
+  --color-muted-terracotta: #B7654A;  /* Selected creative accents */
+  --color-sage-green: #87947A;        /* Secondary highlights & availability */
+  --color-sage-glow: rgba(135, 148, 122, 0.35);
+  --color-soft-charcoal: #353535;     /* Body text and supporting elements */
+  --color-pale-sand: #E8D8C5;         /* Cards, subtle backgrounds & shapes */
+  --color-surface-pure: #FFFDF9;      /* Pure card surface */
+  --color-surface-translucent: rgba(247, 242, 234, 0.85);
+
+  /* Borders & Dividers */
+  --color-border-subtle: rgba(43, 33, 29, 0.08);
+  --color-border-medium: rgba(43, 33, 29, 0.16);
+  --color-border-accent: rgba(212, 163, 115, 0.4);
+
+  /* Typography Stacks */
+  --font-matura: 'Matura MT Script Capitals', 'Matura MT Script', 'Brush Script MT', cursive;
+  --font-mistral: 'Mistral', cursive, sans-serif;
+  --font-display: 'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(43, 33, 29, 0.04);
+  --shadow-md: 0 8px 24px rgba(43, 33, 29, 0.07);
+  --shadow-lg: 0 20px 48px rgba(43, 33, 29, 0.11);
+  --shadow-xl: 0 32px 72px rgba(43, 33, 29, 0.14);
+  --shadow-tan: 0 12px 36px rgba(212, 163, 115, 0.28);
+
+  /* Transitions */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast: 0.2s var(--ease-editorial);
+  --transition-normal: 0.35s var(--ease-editorial);
+  --transition-slow: 0.65s var(--ease-editorial);
+
+  /* Container width */
+  --container-max: 1380px;
+  --nav-height: 80px;
+}
