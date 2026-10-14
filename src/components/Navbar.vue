@@ -10,8 +10,6 @@ const mobileMenuOpen = ref(false)
 const navLinks = [
   { name: 'Work', href: '#work' },
   { name: 'About', href: '#about' },
-  { name: 'Services', href: '#services' },
-  { name: 'Process', href: '#process' },
   { name: 'Contact', href: '#contact' },
 ]
 
@@ -68,7 +66,7 @@ onUnmounted(() => {
     <div class="container nav-container">
       <!-- Signature Wordmark with Script Letter B Brand Icon -->
       <div class="nav-brand">
-        <a href="#" class="brand-link" @click="scrollToSection($event, '#hero')" title="Bertha — Graphic Design">
+        <a href="#hero" class="brand-link" @click="scrollToSection($event, '#hero')" title="Bertha — Graphic Design">
           <div class="brand-b-icon" aria-hidden="true">
             <img src="/bertha-b-icon.svg" alt="" class="b-icon-img" />
           </div>
@@ -534,5 +532,16 @@ onUnmounted(() => {
 
 .mobile-menu-leave-to .mobile-drawer-content {
   transform: translateX(100%);
+}
+
+/* ---------- Responsive: compact brand lockup on very small phones ---------- */
+@media (max-width: 400px) {
+  .brand-link {
+    gap: 0.5rem;
+  }
+  .brand-b-icon {
+    width: 28px;
+    height: 28px;
+  }
 }
 </style>

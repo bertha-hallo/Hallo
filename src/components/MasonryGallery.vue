@@ -281,4 +281,25 @@ const switchProject = (project) => {
   margin: 0;
   line-height: 1.6;
 }
+
+/* ---------- Responsive: keep masonry fluid on phones/tablets ---------- */
+@media (max-width: 639px) {
+  .masonry-columns-container {
+    column-gap: 1.25rem;
+  }
+  .filter-bar {
+    top: 64px;
+    margin-bottom: 2rem;
+  }
+  .gallery-footer-note {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-pill:hover {
+    transform: none;
+  }
+}
 </style>

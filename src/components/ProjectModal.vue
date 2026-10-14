@@ -47,6 +47,17 @@ const navigateProject = (direction) => {
   emit('navigate', props.allProjects[nextIndex])
 }
 
+const goToContact = () => {
+  emit('close')
+  requestAnimationFrame(() => {
+    const el = document.querySelector('#contact')
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.pageYOffset - 80
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+  })
+}
+
 watch(() => props.project, (newVal) => {
   if (newVal) {
     document.body.style.overflow = 'hidden'
@@ -298,7 +309,7 @@ onUnmounted(() => {
               <a
                 href="#contact"
                 class="btn-primary-editorial"
-                @click="emit('close')"
+                @click="goToContact"
               >
                 Inquire About This Service
               </a>
@@ -762,6 +773,30 @@ onUnmounted(() => {
 .modal-fade-enter-active,
 .modal-fade-leave-active {
   transition: opacity 0.3s ease;
+}
+
+/* ---------- Responsive: modal on phones ---------- */
+@media (max-width: 640px) {
+  .modal-backdrop {
+    padding: 0.75rem;
+    align-items: flex-end;
+  }
+  .modal-dialog {
+    max-height: 94vh;
+    border-radius: 16px;
+  }
+  .modal-hero-media {
+    height: clamp(200px, 30vh, 320px);
+  }
+  .modal-hero-badge-row {
+    left: 1rem;
+    bottom: 1rem;
+    right: 1rem;
+    flex-wrap: wrap;
+  }
+  .modal-footer-callout {
+    padding: 1.25rem;
+  }
 }
 
 .modal-fade-enter-from,

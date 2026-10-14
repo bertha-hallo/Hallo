@@ -1,21 +1,12 @@
 <!-- src/components/Footer.vue -->
 <script setup>
 import BerthaWordmark from './BerthaWordmark.vue'
-import { ArrowUp, ArrowUpRight, Mail, MapPin } from 'lucide-vue-next'
+import { ArrowUp, Mail, MapPin } from 'lucide-vue-next'
 
 const navLinks = [
   { name: 'Selected Work', href: '#work' },
   { name: 'About Bertha', href: '#about' },
-  { name: 'Studio Services', href: '#services' },
-  { name: 'Methodology', href: '#process' },
   { name: 'Contact & Inquiries', href: '#contact' },
-]
-
-const socialLinks = [
-  { name: 'Instagram', href: 'https://instagram.com' },
-  { name: 'Behance', href: 'https://behance.net' },
-  { name: 'Pinterest', href: 'https://pinterest.com' },
-  { name: 'LinkedIn', href: 'https://linkedin.com' },
 ]
 
 const scrollToTop = () => {
@@ -90,20 +81,7 @@ const scrollTo = (href) => {
           </div>
 
           <div class="footer-social-wrap">
-            <span class="footer-sub-heading">Archive & Platforms</span>
-            <div class="footer-social-links">
-              <a
-                v-for="item in socialLinks"
-                :key="item.name"
-                :href="item.href"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-social-pill"
-              >
-                <span>{{ item.name }}</span>
-                <ArrowUpRight :size="13" />
-              </a>
-            </div>
+            <span class="contact-note">For commissions and collaborations, reach out directly by email.</span>
           </div>
         </div>
       </div>
@@ -234,6 +212,15 @@ const scrollTo = (href) => {
   opacity: 0.8;
 }
 
+.contact-note {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--color-pale-sand);
+  opacity: 0.75;
+  display: block;
+  max-width: 280px;
+}
+
 /* Links List */
 .footer-links-list {
   list-style: none;
@@ -299,33 +286,6 @@ const scrollTo = (href) => {
 .footer-social-wrap {
   display: flex;
   flex-direction: column;
-}
-
-.footer-social-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.footer-social-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.75rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-pale-sand);
-  transition: all var(--transition-fast);
-}
-
-.footer-social-pill:hover {
-  background-color: var(--color-signature);
-  color: var(--color-deep-espresso);
-  border-color: var(--color-signature);
-  transform: translateY(-2px);
 }
 
 /* Bottom Bar */

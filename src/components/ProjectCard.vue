@@ -430,4 +430,36 @@ const getAspectRatioClass = (ratio) => {
   font-weight: 700;
   padding: 0.2rem 0.35rem;
 }
+
+/* ---------- Responsive: tap-friendly cards, calm motion on touch ---------- */
+@media (max-width: 640px) {
+  .project-card {
+    margin-bottom: 1.5rem;
+  }
+  .card-meta {
+    padding: 1rem 1.1rem 1.2rem;
+  }
+  .project-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (hover: none) {
+  .project-card:hover {
+    transform: none;
+  }
+  .project-card:hover .project-image {
+    transform: none;
+  }
+  .card-hover-overlay {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card:hover,
+  .project-card:hover .project-image {
+    transform: none;
+  }
+}
 </style>
